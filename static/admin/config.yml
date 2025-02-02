@@ -2,21 +2,20 @@ backend:
   name: git-gateway
   branch: main
 
-# Pengaturan default untuk media folder dan public folder
-media_folder: "assets/images/blog"  # Folder untuk menyimpan gambar blog
-public_folder: "/images/blog"       # Path publik untuk gambar blog
+media_folder: "assets/images/blog"
+public_folder: "/images/blog"
 
 collections:
-  # Koleksi untuk Blog
   - name: "blog"
     label: "Blog"
     folder: "content/indonesia/blog"
     create: true
-    identifier_field: "slug"  # Field unik untuk mengidentifikasi postingan
+    identifier_field: "slug"
+    filter: { field: "author_email", value: "{{identity.user.email}}" } # Filter berdasarkan email penulis
     fields:
       - { name: "title", label: "Judul", widget: "string", required: true }
       - { name: "date", label: "Tanggal", widget: "datetime", default: "{{ now }}" }
-      - { name: "author", label: "Penulis", widget: "string", required: true }
+      - { name: "author_name", label: "Nama Penulis", widget: "string", required: true, default: "{{identity.user.fullname}}" } # Nama penulis
       - { name: "description", label: "Deskripsi", widget: "text", required: true }
       - { name: "image", label: "Gambar Utama", widget: "image", required: true }
       - { name: "categories", label: "Kategori", widget: "list", required: true }
